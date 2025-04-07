@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "./font-face.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --side-padding: 1.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-roobert);
+  --font-mono: var(--font-geist-mono);
+  --animate-first: moveVertical 30s ease infinite;
+  --animate-second: moveInCircle 20s reverse infinite;
+  --animate-third: moveInCircle 40s linear infinite;
+  --animate-fourth: moveHorizontal 40s ease infinite;
+  --animate-fifth: moveInCircle 20s ease infinite;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg) translateX(100px) rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg) translateX(100px) rotate(-180deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(100px) rotate(-360deg);
+  }
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInStaggered {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% + var(--side-padding) + 340px));
+  }
+}
+
+@keyframes moveRightDelayed {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% + var(--side-padding) + 340px));
+  }
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(50% - var(--side-padding) - 340px));
+  }
+}
+
+@keyframes moveLeftDelayed {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(50% - var(--side-padding) - 340px));
+  }
+}
+
+@keyframes moveCenter {
+  0% {
+    transform: translateX(var(--from-position, 0));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+.animate-fadeInDelayed {
+  animation: fadeIn 0.6s ease-in-out 0.3s forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-moveRight {
+  animation: moveRight 1s ease-in-out forwards;
+}
+
+.animate-moveRightDelayed {
+  animation: moveRightDelayed 1s ease-in-out forwards;
+  animation-delay: 0.15s;
+}
+
+.animate-moveLeft {
+  animation: moveLeft 1s ease-in-out forwards;
+}
+
+.animate-moveLeftDelayed {
+  animation: moveLeftDelayed 1s ease-in-out forwards;
+  animation-delay: 0.15s;
+}
+
+.animate-stagger-1 {
+  animation: fadeInStaggered 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-stagger-2 {
+  animation: fadeInStaggered 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-stagger-3 {
+  animation: fadeInStaggered 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-stagger-4 {
+  animation: fadeInStaggered 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+  opacity: 0;
+}
+
+.text-hover-left-first {
+  animation: moveRight 1s ease-in-out forwards;
+}
+
+.text-hover-left-second {
+  animation: moveRight 1s ease-in-out 0.15s forwards;
+}
+
+.text-hover-right-first {
+  animation: moveLeft 1s ease-in-out forwards;
+}
+
+.text-hover-right-second {
+  animation: moveLeft 1s ease-in-out 0.15s forwards;
+}
+
+.text-hover-none-first {
+  animation: moveCenter 1s ease-in-out forwards;
+}
+
+.text-hover-none-second {
+  animation: moveCenter 1s ease-in-out 0.15s forwards;
+}
+
+.hover\:shadow-glow:hover {
+  box-shadow:
+    0 0 15px rgba(255, 255, 255, 0.7),
+    0 0 30px rgba(255, 255, 255, 0.4),
+    0 0 45px rgba(100, 220, 255, 0.2);
+}
