@@ -13,7 +13,7 @@ const Navbar = () => {
               SKINSTRIC
             </Link>
 
-            <Link href="/intro" className="group flex items-center">
+            <Link href="/introduction" className="group flex items-center">
               <svg
                 width="5"
                 height="19"
@@ -47,16 +47,18 @@ const Navbar = () => {
               </svg>
             </Link>
           </div>
-          <Link href="/enter-code">
-            <button className="relative overflow-hidden group bg-black px-4 py-2 transition-all duration-300">
-              <span className="text-white text-sm font-bold transition-transform duration-300 group-hover:-translate-y-full block">
-                ENTER CODE
-              </span>
-              <span className="text-black text-sm font-bold absolute inset-0 flex items-center justify-center bg-white translate-y-full transition-transform duration-300 group-hover:translate-y-0">
-                ENTER CODE
-              </span>
-            </button>
-          </Link>
+          <div className="flex items-center gap-4"> 
+            <Link href="/login" className="block">
+              <button className="relative overflow-hidden group bg-black px-4 py-2 transition-all duration-300">
+                <span className="text-white text-sm font-bold transition-transform duration-300 group-hover:-translate-y-full block">
+                  LOG IN
+                </span>
+                <span className="text-black text-sm font-bold absolute inset-0 flex items-center justify-center bg-white translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                  LOG IN
+                </span>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
