@@ -75,6 +75,7 @@ export default function Camera({ onCapture, onClose }: CameraProps) {
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
               className="h-full w-full object-cover"
+              mirrored={true}
             />
             <div className="absolute bottom-6 left-0 right-0 flex justify-center">
               <button

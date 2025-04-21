@@ -18,7 +18,6 @@ export default function IntroductionPage() {
     location: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
@@ -104,12 +103,7 @@ export default function IntroductionPage() {
 
     try {
       localStorage.setItem("skinstricUserData", JSON.stringify(formData));
-
-      // Store the data locally and redirect (for development)
-      setSubmitSuccess(true);
-      setTimeout(() => {
-        window.location.href = "/upload-photo";
-      }, 1500);
+      window.location.href = "/upload-photo";
 
       // The API call is still made but we don't wait for it to complete (for development)
       fetch(
@@ -161,60 +155,52 @@ export default function IntroductionPage() {
         <div
           className={`flex flex-col items-center justify-center z-10 transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         >
-          {submitSuccess ? (
-            <div className="text-center text-zinc-900">
-              <h2 className="text-4xl mb-4">Thank You!</h2>
-              <p>Your information has been submitted successfully.</p>
-              <p>Redirecting you shortly...</p>
-            </div>
-          ) : (
-            <div className="w-[400px] relative">
-              <p className="text-[20px] text-zinc-400 mb-8 text-center uppercase tracking-widest">
-                CLICK TO TYPE
+          <div className="w-[400px] relative">
+            <p className="text-[20px] text-zinc-400 mb-8 text-center uppercase tracking-widest">
+              CLICK TO TYPE
+            </p>
+            <input
+              type="text"
+              name={step === 1 ? "name" : "location"}
+              value={step === 1 ? formData.name : formData.location}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+              placeholder={
+                step === 1 ? "Introduce Yourself" : "Where Are You From?"
+              }
+              className="w-full bg-transparent border-b border-zinc-900 py-1 px-0 text-zinc-900 placeholder-zinc-800 focus:outline-none focus:border-black text-center text-5xl font-normal"
+              autoFocus
+            />
+            {errors[step === 1 ? "name" : "location"] && (
+              <p className="text-rose-500 text-sm mt-2 text-center">
+                {errors[step === 1 ? "name" : "location"]}
               </p>
-              <input
-                type="text"
-                name={step === 1 ? "name" : "location"}
-                value={step === 1 ? formData.name : formData.location}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
-                placeholder={
-                  step === 1 ? "Introduce Yourself" : "Where Are You From?"
-                }
-                className="w-full bg-transparent border-b border-zinc-900 py-1 px-0 text-zinc-900 placeholder-zinc-800 focus:outline-none focus:border-black text-center text-5xl font-normal"
-                autoFocus
-              />
-              {errors[step === 1 ? "name" : "location"] && (
-                <p className="text-rose-500 text-sm mt-2 text-center">
-                  {errors[step === 1 ? "name" : "location"]}
-                </p>
-              )}
-              {submitError && (
-                <p className="text-rose-500 text-sm mt-2 text-center">
-                  {submitError}
-                </p>
-              )}
+            )}
+            {submitError && (
+              <p className="text-rose-500 text-sm mt-2 text-center">
+                {submitError}
+              </p>
+            )}
 
-              <div className="flex justify-center mt-8">
-                <button
-                  onClick={nextStep}
-                  disabled={
-                    isSubmitting ||
-                    (step === 1
-                      ? !formData.name.trim() || !!errors.name
-                      : !formData.location.trim() || !!errors.location)
-                  }
-                  className="px-8 py-2 bg-zinc-900 text-white uppercase text-sm font-semibold tracking-wide hover:bg-zinc-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting
-                    ? "Submitting..."
-                    : step === 1
-                      ? "Continue"
-                      : "Submit"}
-                </button>
-              </div>
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={nextStep}
+                disabled={
+                  isSubmitting ||
+                  (step === 1
+                    ? !formData.name.trim() || !!errors.name
+                    : !formData.location.trim() || !!errors.location)
+                }
+                className="px-8 py-2 bg-zinc-900 text-white uppercase text-sm font-semibold tracking-wide hover:bg-zinc-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting
+                  ? "Submitting..."
+                  : step === 1
+                    ? "Continue"
+                    : "Submit"}
+              </button>
             </div>
-          )}
+          </div>
         </div>
 
         <div
@@ -223,11 +209,11 @@ export default function IntroductionPage() {
           <div className="flex flex-col gap-2">
             <div className="text-zinc-900 text-sm font-semibold uppercase leading-normal">
               {step === 1
-                ? "Step 1 of 2: Your Name"
-                : "Step 2 of 2: Your Location"}
+                ? "Step 1 of 3: Your Name"
+                : "Step 2 of 3: Your Location"}
             </div>
             <Progress
-              value={step === 1 ? 50 : 100}
+              value={step === 1 ? 33 : 66}
               className="h-1.5 rounded-sm"
             />
           </div>

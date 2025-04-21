@@ -5,6 +5,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --side-padding: 1.5rem;
+  --font-roobert: "Roobert";
 }
 
 @theme inline {
@@ -26,6 +27,33 @@
   }
 }
 
+.text-shadow {
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.7s ease-out forwards;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
 html,
 body {
   margin: 0;
@@ -38,6 +66,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 400;
 }
 
 @keyframes moveHorizontal {
@@ -73,15 +102,6 @@ body {
   }
   100% {
     transform: translateY(-50%);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 
