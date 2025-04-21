@@ -11,10 +11,13 @@ import {
 } from "@mdi/js";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline";
-  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary" | "outline" | "animated" | "dark-animated" | "action";
+  size?: "sm" | "md" | "lg" | "custom";
   className?: string;
   children: React.ReactNode;
+  href?: string;
+  customHeight?: string;
+  customWidth?: string;
 }
 
 export function Button({
@@ -22,31 +25,84 @@ export function Button({
   size = "md",
   className,
   children,
+  href,
+  customHeight,
+  customWidth,
   ...props
 }: ButtonProps) {
-  const baseStyles =
-    "relative overflow-hidden font-medium transition-all duration-200";
+  const baseStyles = "relative overflow-hidden font-medium transition-all duration-300 box-border";
 
   const variants = {
-    primary: "bg-black text-white hover:bg-black/90",
-    secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200",
-    outline: "border-2 border-gray-200 text-gray-900 hover:bg-white/50",
+    primary: "bg-black text-white hover:bg-black/90 border border-black",
+    secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200 border border-black",
+    outline: "border border-black text-zinc-900 hover:bg-gray-100",
+    animated: "bg-black box-border border border-black",
+    "dark-animated": "bg-white border border-black box-border",
+    action: "text-zinc-900 border border-black hover:bg-gray-100"
   };
 
   const sizes = {
-    sm: "px-4 py-2 text-sm",
+    sm: "px-3 py-[5px] text-[9px] sm:text-[10px] uppercase",
     md: "px-6 py-3 text-base",
     lg: "px-8 py-4 text-lg",
+    custom: ""
   };
 
-  return (
+  const getCustomSizeStyles = () => {
+    if (size !== 'custom') return '';
+    
+    return `${customHeight ? `h-[${customHeight}]` : ''} ${customWidth ? `w-[${customWidth}]` : ''}`;
+  };
+
+  const buttonContent = () => {
+    if (variant === "animated") {
+      return (
+        <>
+          <span className="text-white text-sm font-bold transition-transform duration-300 group-hover:-translate-y-full block">
+            {children}
+          </span>
+          <span className="text-black text-sm font-bold absolute inset-0 flex items-center justify-center bg-white translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+            {children}
+          </span>
+        </>
+      );
+    } else if (variant === "dark-animated") {
+      return (
+        <>
+          <span className="text-black text-sm font-bold transition-transform duration-300 group-hover:-translate-y-full block">
+            {children}
+          </span>
+          <span className="text-white text-sm font-bold absolute inset-0 flex items-center justify-center bg-black translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+            {children}
+          </span>
+        </>
+      );
+    } else {
+      return children;
+    }
+  };
+
+  const buttonElement = (
     <button
-      className={cn(baseStyles, variants[variant], sizes[size], className)}
+      className={cn(
+        baseStyles, 
+        variants[variant], 
+        sizes[size], 
+        getCustomSizeStyles(), 
+        variant.includes('animated') ? 'group' : '',
+        className
+      )}
       {...props}
     >
-      {children}
+      {buttonContent()}
     </button>
   );
+
+  if (href) {
+    return <Link href={href}>{buttonElement}</Link>;
+  }
+
+  return buttonElement;
 }
 
 interface DiamondButtonProps {

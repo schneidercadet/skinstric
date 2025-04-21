@@ -3,11 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Ripple } from "@/components/ui/Ripple";
 import Camera from "@/components/Camera";
 import ImageUploader from "@/components/ImageUploader";
+import { Progress } from "@/components/ui/progress";
 
 export default function UploadPhotoPage() {
+  const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const [userName, setUserName] = useState("");
   const [activeComponent, setActiveComponent] = useState<"options" | "camera" | "uploader">("options");
@@ -34,12 +37,16 @@ export default function UploadPhotoPage() {
     setActiveComponent("uploader");
   };
 
-  const handleImageCaptured = (imageData: string) => {
-    alert("Image captured successfully!");
-    
-    console.log("Processing image, length:", imageData.length);
-    
-    setActiveComponent("options");
+  const handleImageCaptured = async (imageData: string) => {
+    try {
+      localStorage.setItem("skinstricImageData", imageData);
+      
+      router.push("/analyzing-image");
+    } catch (error) {
+      console.error("Error processing image:", error);
+      alert("There was an error processing your image. Please try again.");
+      setActiveComponent("options");
+    }
   };
 
   const handleBackToOptions = () => {
@@ -172,6 +179,20 @@ export default function UploadPhotoPage() {
               </div>
             </Link>
           )}
+        </div>
+        
+        <div
+          className={`absolute top-[86px] left-[32px] transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"} w-56`}
+        >
+          <div className="flex flex-col gap-2">
+            <div className="text-zinc-900 text-sm font-semibold uppercase leading-normal">
+              Step 3 of 3: Your Photo
+            </div>
+            <Progress
+              value={100}
+              className="h-1.5 rounded-sm"
+            />
+          </div>
         </div>
       </div>
       
